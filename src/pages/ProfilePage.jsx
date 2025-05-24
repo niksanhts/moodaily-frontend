@@ -25,7 +25,6 @@ export default function ProfilePage() {
     fetchMoods();
   }, []);
 
-  // Формируем статистику, учитывая только последнюю запись для каждой даты
   const uniqueMoods = [];
   const seenDates = new Set();
   for (const mood of moods.slice().reverse()) {
@@ -36,9 +35,9 @@ export default function ProfilePage() {
   }
 
   const moodData = [
-    { name: 'Позитив', value: uniqueMoods.filter(m => m.mood === 'happy').length },
-    { name: 'Нейтрально', value: uniqueMoods.filter(m => m.mood === 'neutral').length },
-    { name: 'Негатив', value: uniqueMoods.filter(m => m.mood === 'sad').length },
+    { name: 'Позитив', value: uniqueMoods.filter((m) => m.mood === 'happy').length },
+    { name: 'Нейтрально', value: uniqueMoods.filter((m) => m.mood === 'neutral').length },
+    { name: 'Негатив', value: uniqueMoods.filter((m) => m.mood === 'sad').length },
   ];
 
   const handleMoodChange = async (date, mood) => {
@@ -53,11 +52,11 @@ export default function ProfilePage() {
 
     try {
       const dateStr = date.toISOString().split('T')[0];
-      const existingMood = moods.find(m => m.date === dateStr);
+      const existingMood = moods.find((m) => m.date === dateStr);
       let response;
       if (existingMood) {
         response = await updateItem(existingMood.id, { date: dateStr, mood });
-        setMoods(moods.map(m => m.date === dateStr ? response : m));
+        setMoods(moods.map((m) => (m.date === dateStr ? response : m)));
       } else {
         const newMood = { date: dateStr, mood };
         response = await addItem(newMood);
@@ -70,18 +69,18 @@ export default function ProfilePage() {
 
   return (
     <Container className="py-5 text-center">
-      <h1 className="text-title mb-3">Личный кабинет</h1>
-      <p className="text-subtitle mb-4">Отслеживай своё настроение по дням</p>
+      <h1 className="text-title">Личный кабинет</h1>
+      <p className="text-subtitle">Отслеживай своё настроение по дням</p>
       {error && <Alert variant="danger">{error}</Alert>}
       {loading && <p>Загрузка...</p>}
-      <div className="calendar-wrapper mb-5">
+      <div className="calendar-wrapper">
         <CalendarComponent
           moods={moods}
           onDateSelect={setSelectedDate}
           onMoodChange={handleMoodChange}
         />
       </div>
-      <h3 className="mb-3">Статистика настроения</h3>
+      <h3 className="text-title">Статистика настроения</h3>
       <DonutChart data={moodData} />
     </Container>
   );

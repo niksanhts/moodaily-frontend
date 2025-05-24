@@ -13,7 +13,7 @@ export default function CalendarComponent({ moods, onDateSelect, onMoodChange })
   const [selectedDate, setSelectedDate] = useState(null);
   const currentDate = new Date();
   const minDate = new Date();
-  minDate.setDate(currentDate.getDate() - 5); // 5 дней назад
+  minDate.setDate(currentDate.getDate() - 5);
 
   const handleDateClick = (date) => {
     setSelectedDate(date);
@@ -22,11 +22,10 @@ export default function CalendarComponent({ moods, onDateSelect, onMoodChange })
 
   const tileContent = ({ date }) => {
     const dateStr = date.toISOString().split('T')[0];
-    const mood = moods.find(m => m.date === dateStr)?.mood;
-    return mood ? <span>{moodEmojis[mood]}</span> : null;
+    const mood = moods.find((m) => m.date === dateStr)?.mood;
+    return mood ? <span className="mood-emoji-tile">{moodEmojis[mood]}</span> : null;
   };
 
-  // Проверяем, находится ли дата в допустимом диапазоне (последние 5 дней)
   const isValidDate = selectedDate && selectedDate >= minDate && selectedDate <= currentDate;
 
   return (
@@ -34,22 +33,25 @@ export default function CalendarComponent({ moods, onDateSelect, onMoodChange })
       <Calendar
         onClickDay={handleDateClick}
         value={selectedDate}
-        className="custom-calendar"
         tileContent={tileContent}
-        minDate={minDate} // Ограничиваем минимальную дату
-        maxDate={currentDate} // Ограничиваем максимальную дату
+        minDate={minDate}
+        maxDate={currentDate}
+        className="custom-calendar"
       />
       {selectedDate && isValidDate && (
         <div className="text-center mt-4">
-          <h5>Настроение на {selectedDate.toLocaleDateString()}</h5>
+          <h5>
+            Настроение на {selectedDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' })}
+          </h5>
           <div className="d-flex justify-content-center gap-3 mt-3">
             {Object.keys(moodEmojis).map((mood) => (
               <Button
                 key={mood}
                 variant="outline-secondary"
                 onClick={() => onMoodChange(selectedDate, mood)}
+                title={mood === 'happy' ? 'Хорошее' : mood === 'neutral' ? 'Нормальное' : 'Плохое'}
               >
-                {moodEmojis[mood]} {mood}
+                {moodEmojis[mood]}
               </Button>
             ))}
           </div>
@@ -58,6 +60,13 @@ export default function CalendarComponent({ moods, onDateSelect, onMoodChange })
       {selectedDate && !isValidDate && (
         <div className="text-center mt-4 text-muted">
           <p>Можно выбирать настроение только за последние 5 дней.</p>
+        </div>
+      )}
+      {selectedDate && (
+        <div className="mood-emoji text-center">
+          {moods.find((m) => m.date === selectedDate.toISOString().split('T')[0])?.mood
+            ? moodEmojis[moods.find((m) => m.date === selectedDate.toISOString().split('T')[0]).mood]
+            : 'Нет настроения'}
         </div>
       )}
     </div>
