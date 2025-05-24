@@ -36,7 +36,28 @@ export const login = async (credentials) => {
   return data;
 };
 
-// Остальные функции остаются без изменений
+export const getUser = async () => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    throw new Error('Токен отсутствует');
+  }
+
+  const response = await fetch(`${API_URL}/user`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message || 'Ошибка получения данных пользователя');
+  }
+
+  return data;
+};
+
 export const getItems = async () => {
   const token = localStorage.getItem('token');
   const response = await fetch(`${API_URL}/items`, {

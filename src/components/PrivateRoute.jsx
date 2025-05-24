@@ -1,15 +1,17 @@
-// src/components/PrivateRoute.js
-import React from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+// src/components/PrivateRoute.jsx
+import React, { useContext } from 'react';
+import { Navigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext.jsx';
 
-export default function PrivateRoute({ children, setShowAuth }) {
-  const token = localStorage.getItem('token');
-  const navigate = useNavigate();
+export default function PrivateRoute({ children }) {
+  const { isAuthenticated, loading } = useContext(AuthContext);
 
-  if (!token) {
-    setShowAuth(true); // Показываем модальное окно
-    navigate('/'); // Перенаправляем на главную страницу
-    return null;
+  if (loading) {
+    return <div>Загрузка...</div>;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
   }
 
   return children;

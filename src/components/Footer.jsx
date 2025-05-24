@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="bg-light text-center py-3 mt-auto">
       <Container>
         <small>
-          © 2025 • <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">GitHub</a>
+          © 2025 • <a href="https://github.com/niksanhts" target="_blank" rel="noopener noreferrer">GitHub</a>
         </small>
       </Container>
     </footer>

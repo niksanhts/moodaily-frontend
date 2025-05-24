@@ -1,31 +1,37 @@
-import React from 'react';
+// src/components/Header.jsx
+import React, { useContext } from 'react';
 import { Navbar, Nav, Container, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext.jsx';
 
-export default function Header({ onAuthClick }) {
-  const isAuthenticated = !!localStorage.getItem('token');
+export default function Header() {
+  const { isAuthenticated, user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    window.location.reload(); // Перезагружаем страницу для обновления состояния
+    logout();
+    navigate('/');
   };
 
   return (
-    <Navbar bg="light" expand="lg" sticky="top">
+    <Navbar bg="light" expand="lg" sticky="top" className="navbar-light">
       <Container>
         <Navbar.Brand as={Link} to="/">Moodaily</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse>
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">Главная</Nav.Link>
-            <Nav.Link as={Link} to="/profile">Профиль</Nav.Link>
+            {isAuthenticated && <Nav.Link as={Link} to="/profile">Профиль</Nav.Link>}
           </Nav>
           {isAuthenticated ? (
-            <Button variant="outline-danger" onClick={handleLogout}>
-              Выйти
-            </Button>
+            <div className="d-flex align-items-center">
+              <span className="me-3 text-muted">Привет, {user?.username || 'Пользователь'}!</span>
+              <Button variant="outline-danger" onClick={handleLogout}>
+                Выйти
+              </Button>
+            </div>
           ) : (
-            <Button variant="outline-primary" onClick={onAuthClick}>
+            <Button as={Link} to="/login" variant="outline-primary">
               Войти
             </Button>
           )}

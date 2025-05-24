@@ -1,36 +1,34 @@
+// src/App.js
 import React, { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { Container } from 'react-bootstrap';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import AuthModal from './components/AuthModal';
-import MainPage from './pages/MainPage';
-import ProfilePage from './pages/ProfilePage';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
+import Header from './components/Header';
+import ProfilePage from './pages/ProfilePage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import MainPage from './pages/MainPage';
+import { Modal } from 'react-bootstrap';
 
 export default function App() {
-  const [showAuth, setShowAuth] = useState(false);
-
   return (
-    <div className="d-flex flex-column min-vh-100">
-      <Header onAuthClick={() => setShowAuth(true)} />
-      <main className="flex-grow-1">
-        <Container className="py-4">
-          <Routes>
-            <Route path="/" element={<MainPage />} />
-            <Route
-              path="/profile"
-              element={
-                <PrivateRoute setShowAuth={setShowAuth}>
-                  <ProfilePage />
-                </PrivateRoute>
-              }
-            />
-          </Routes>
-        </Container>
-      </main>
-      <Footer />
-      <AuthModal show={showAuth} onHide={() => setShowAuth(false)} />
-    </div>
+    <AuthProvider>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <ProfilePage />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
