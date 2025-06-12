@@ -1,12 +1,84 @@
-# React + Vite
+# Moodaily
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Moodaily** is a single-page mood journal application built with **JavaScript** and **React** as a second-year university project. **Bootstrap 5** was used for styling and responsive layout.
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The app allows users to:
 
-## Expanding the ESLint configuration
+* Add, view, edit, and delete mood entries
+* Select moods using visual indicators (emojis or color tags)
+* Persist data using **LocalStorage**
+* Enjoy a clean and responsive interface powered by Bootstrap
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Tech Stack
+
+* **React (Create React App / Vite)**
+* **JavaScript (ES6+)**
+* **Bootstrap 5**
+* **LocalStorage** (for basic data persistence)
+
+## Features
+
+1. **Mood Entry Management**
+
+   * Choose a date
+   * Select a mood (emoji or color-based)
+   * Add optional comments
+
+2. **Entry List**
+
+   * Chronological display of all entries
+   * Edit and delete functionality
+
+3. **Responsive UI**
+
+   * Built with Bootstrap grid and components
+   * Works smoothly across desktop and mobile screens
+
+## Project Structure
+
+```
+/src
+├── components/     # UI components like MoodEntryForm, MoodList, MoodItem
+├── services/       # LocalStorage interactions (e.g., moodStorage.js)
+├── styles/         # Custom styles (Bootstrap overrides if any)
+├── App.js          # Root component
+├── index.js        # Entry point
+└── ...
+```
+
+## Getting Started
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/niksanhts/moodaily-frontend.git
+   cd moodaily-frontend
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Run the development server:
+
+   ```bash
+   npm start
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Development Timeline
+
+The project was completed in **approximately 7–10 days**, including UI/UX design, development, and testing.
+
+## What I Learned
+
+* Building a fully functional **SPA** with React
+* Component-driven design and state management
+* Responsive layouts using **Bootstrap**
+* Working with **LocalStorage**
+* Applying clean and minimalistic **UX/UI** principles
